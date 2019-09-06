@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block main %}
+{% if my_resources_list %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>URL</th>
+            <th>Text</th>
+            <th>Social</th>
+            <th>Date Created</th>
+            <th>State</th>
+            <th><a href="{% url 'resources_new' %}"><i class="fa fa-plus"></i></a>
+</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for resource in my_resources_list %}
+        <tr>
+            <td>
+                {{resource.type}}
+            </td>
+            <td>
+                {% if resource.url %}
+                <a href="{{resource.url}}" target="_blank"><i class="fa fa-external-link"></i> {{resource.url}}</a>
+                {% endif %}
+            </td>
+            <td>{{resource.text}}</td>
+            <td>{{resource.social}}</td>
+            <td>{{resource.date_created|date:"F j o"}}</td>
+            <td>{{resource.state}}</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p>No resources found<br/> Make a new one:
+<a href="{% url 'resources_new' %}"><button type="button" class="btn btn-default navbar-btn"><i class="fa fa-plus"></i>Create New</button></a>
+    .
+</p>
+{% endif %}
+
+{% endblock %}

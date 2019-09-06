@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block main %}
+{% if internship_list %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Registration Opens</th>
+            <th>Registration Closes</th>
+            <th>Internship Start</th>
+            <th>Internship End</th>
+            <th>Description</th>
+            <th>Interns</th>
+            <th>Company</th>
+            <th>Apply</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for internship in internship_list %}
+        <tr>
+            <td>
+                <a href="{% url 'internship_view' internship.id %}">
+                    {{internship.title}}
+                </a>
+            </td>
+            <td>{{internship.registration_start_date}}</td>
+            <td>{{internship.registration_end_date}}</td>
+            <td>{{internship.start_date}}</td>
+            <td>{{internship.end_date}}</td>
+            <td>{{internship.description}}</td>
+            <td>{{internship.openings}}</td>
+            <td>
+                <a href="/org/{{internship.company.org_name}}"> {{internship.company.org_name}}
+                    <i class="fa fa-info-circle"></i></a>
+            </td>
+            <td>
+                <a href="{% url 'inter_application' internship.id %}">
+                    <i class="fa fa-handshake-o"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p>No internships are available.</p>
+{% endif %}
+
+{% endblock %}

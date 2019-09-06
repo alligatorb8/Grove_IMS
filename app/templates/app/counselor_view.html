@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+
+
+{% block main %}
+
+    {% if counselor_info %}
+        <h3>Welcome {{ counselor_info.first_name }} {{ counselor_info.last_name }}</h3>
+    {% endif %}
+
+
+    {% if student_internships %}
+        <h3>
+            {% if counselor_site %}
+                {{ counselor_site.school.org_name }}
+            {% else %} No Org set
+            {% endif %}
+            Students:
+        </h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Internship</th>
+                    <th>Status</th>
+                    <th>Date Range</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for student in student_internships %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'user_page' student.applicant.id %}">
+                                {{ student.applicant.first_name }} {{ student.applicant.last_name |truncatewords:"2" }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'internship_view' student.internship.id %}">
+                                {{ student.internship.title }}
+                            </a>
+                            <i class="fa fa-at"></i>
+                            <a href="{% url 'org_info' student.internship.company.org_name %}">
+                                {{ student.internship.company.org_name }}
+                            </a>
+                        </td>
+                        <td>
+                            <span class="ap-st ap-st-{{ student.state }}"></span>{{ student.get_state_display }}
+                        </td>
+                        <td>
+                            {{ student.internship.start_date |date:"F j o" }}
+                            - {{ student.internship.end_date |date:"F j o" }}
+
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>You either have no students, or no organization assignment member for any internships.</p>
+    {% endif %}
+
+
+{% endblock %}

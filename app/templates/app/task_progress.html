@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h2>Updating <small>{{task_info.name}}</small> progress
+</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <table class="table table-responsive">
+            {{ form.as_table}}
+        </table>
+    </div>
+    <button type="submit" class="btn btn-success">Save Progress</button>
+</form>
+<br/>
+{% endblock %}

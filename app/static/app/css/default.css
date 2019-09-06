@@ -1,0 +1,146 @@
+/* Site Styles --------------------------------- */
+.copyr {
+    color: rgb(163, 163, 163);
+    font-size: smaller;
+}
+
+.welcome_icon {
+    font-size: 300%;
+
+}
+
+.form_group_title {
+    color: rgba(255, 0, 0, .75);
+}
+
+.alert-error {
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+}
+
+.alert-error hr {
+    border-top-color: #e4b9c0;
+}
+
+.alert-error .alert-link {
+    color: #843534;
+}
+
+.applicant_image {
+    min-width: 50px;
+    max-width: 60px;
+}
+
+.applicant_info {
+}
+
+/* bootstrap overrides --------------------------------- */
+
+/* Navbar override --------------------------------- */
+.navbar-inverse {
+    background-color: rgb(255, 255, 255);
+}
+
+.footer {
+    background-color: rgba(0, 0, 0, 1);
+}
+
+.btn-success {
+    background-color: rgb(0, 181, 239);
+    border-color: rgb(0, 181, 239);
+}
+
+.btn-success:hover {
+    background-color: rgba(0, 181, 239, .5);
+    border-color: rgba(0, 181, 239, .5);
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: rgb(0, 181, 239);
+}
+
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+    background-color: transparent;
+    color: rgb(0, 181, 239);
+
+}
+
+/* Sticky footer styles --------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 200px;
+    padding-top: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 200px;
+}
+
+.footer .h3 {
+    color: rgb(0, 181, 239);
+}
+
+.footer a {
+    color: rgb(163, 163, 163);
+}
+
+.footer a:hover {
+    color: rgba(0, 0, 0, 1);
+}
+
+/* intern stat icons --------------------------------- */
+.ap-st:before {
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 18px;
+    margin: 0px 5px 0px 10px;
+    text-decoration: none;
+}
+
+.ap-st-submitted:before {
+    content: '\f06a';
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.ap-st-pending:before {
+    content: '\f05a';
+    color: rgba(9, 15, 188, 0.75);
+}
+
+.ap-st-approved:before {
+    content: '\f058';
+    color: rgba(129, 188, 0, .75);
+}
+
+.ap-st-denied:before {
+    content: '\f057';
+    color: rgba(188, 31, 23, 0.75);
+}
+
+.ap-st-needsclarification:before {
+    content: '\f059';
+    color: rgba(188, 101, 27, 0.75);
+}
+
+.ap-st-waitlist:before {
+    content: '\f254';
+    color: rgba(171, 13, 188, 0.75);
+}
+
+/* List Styles --------------------------------- */
+
+ol.a {
+    list-style-position: inside;
+}

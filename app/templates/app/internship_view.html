@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+{% load app_filters %}
+{% block main %}
+    {% if internship_info %}
+        <h2>{{ internship_info.title }} @ {{ internship_info.company.org_name }}
+            <br/>
+            <small>
+                <small> Submitted: {{ internship_info.date_created }} by {{ internship_info.main_contact }}</small>
+            </small>
+        </h2>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Registration Opens</th>
+                    <th>Registration Closes</th>
+                    <th>Internship Start</th>
+                    <th>Internship End</th>
+                    <th>Remaining/Openings</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ internship_info.registration_start_date }}</td>
+                    <td>{{ internship_info.registration_end_date }}</td>
+                    <td>{{ internship_info.start_date }}</td>
+                    <td>{{ internship_info.end_date }}</td>
+                    <td>{{ spots }}/{{ internship_info.openings }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Description</h3>
+            </div>
+            <div class="panel-body">
+                {{ internship_info.description }}
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Contact(s)</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3">
+                        <div class="thumbnail">
+                            <img src="{{ internship_info.main_contact.member.image }}"
+                                 alt="{{ internship_info.main_contact }}"/>
+
+                            <div class="caption">
+                                <h3>{{ internship_info.main_contact.first_name }}
+                                    {{ internship_info.main_contact.last_name }}
+                                </h3>
+
+                                <p>
+                                    {{ internship_info.main_contact.member.bio }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <address>
+                            {{ internship_info.main_contact.member.street }}<br/>
+                            {% if internship_info.main_contact.member.street2 %}
+                                {{ internship_info.main_contact.member.street2 }}<br/>
+                            {% endif %}
+                            {{ internship_info.main_contact.member.city }}, {{ internship_info.main_contact.member.state }}
+                            {{ internship_info.main_contact.member.zip }}<br/>
+                            {{ internship_info.main_contact.member.country }}
+                        </address>
+                        <p><a href="tel:{{ internship_info.main_contact.member.phone }}">
+                            <i class="fa fa-phone"></i> {{ internship_info.main_contact.member.phone }}
+                        </a></p>
+
+                        <p><a href="mailto:{{ internship_info.main_contact.email }}">
+                            <i class="fa fa-envelope-o"></i> {{ internship_info.main_contact.email }}</a></p>
+
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if user.member.is_supervisor or user.member.is_counselor %}
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Interns</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Applicant</th>
+                                <th>Date Applied</th>
+                                <th>Letter</th>
+                                <th>Notes</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for application in application_info %}
+                                <tr>
+                                    <td class="applicant_info">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="{% url 'user_page' application.applicant.id %}">
+                                                    <img class="media-object applicant_image"
+                                                         src="{{ application.applicant.member.image }}"
+                                                         alt="{{ application.username }}">
+                                                </a>
+                                            </div>
+                                            <div class=""><a href="{% url 'user_page' application.applicant.id %}">
+                                                <h4 class="media-heading">{{ application.applicant.first_name }}
+                                                    {{ application.applicant.last_name }}</h4></a>
+                                                {{ application.applicant.member.bio }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ application.date_created|date:"F j o" }}</td>
+                                    <td>{{ application.letter }}</td>
+                                    <td>{{ application.notes }}</td>
+                                    <td>
+                                        <span class="ap-st ap-st-{{ application.state }}"></span>{{ application.get_state_display }}
+                                    </td>
+                                </tr>
+
+                            {% empty %}
+                                No Applications found
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Internship Items
+                    {% if user.member.is_supervisor %}
+                        <div class="pull-right" style="font-size: 80%">
+                            <a href="{% url 'task_new' internship_info.id %}">
+                                <i class="fa fa-calendar-plus-o"></i> Task</a> |
+                            <a href="{% url 'focus_new' internship_info.id %}">
+                                <i class="fa fa-search-plus"></i> Focus</a>
+                        </div>
+                    {% endif %}
+                </h3>
+            </div>
+            <div class="panel-body">
+                {% if tasks %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Task Name</th>
+                                <th>Details</th>
+                                <th>Time Estimation</th>
+                                <th>Author</th>
+                                <th>Date Created</th>
+                                <th>Progress</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for task in tasks %}
+
+                                <tr>
+                                    <td><b>{{ task.name }}</b></td>
+                                    <td>{{ task.details }}</td>
+                                    <td>{{ task.estimation }}</td>
+                                    <td>{{ task.author.first_name }}</td>
+                                    <td>{{ task.date_created|date:"F j o" }}</td>
+                                    <td width="15%">
+                                        {% for progress in task.progress.all %}
+                                            {% if user.member.is_supervisor %}
+                                                {{ progress.intern.first_name|truncatewords:2 }}
+                                            {% endif %}
+                                            {% if user.member.is_student %}
+                                                <a href="{% url 'task_progress_update' task_id=task.id progress_id=progress.id %}">
+                                            {% endif %}
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar"
+                                                 aria-valuenow="{{ progress.progress }}" aria-valuemin="0"
+                                                 aria-valuemax="100" style="width: {{ progress.progress }}%;">
+                                                {{ progress.progress }}%
+                                            </div>
+                                        </div>
+                                        </a>
+                                        {% empty %}
+                                            {% if user.member.is_student %}
+
+                                                <a href="{% url 'task_progress' task.id %}">
+                                                    Start Progress <i class="fa fa-clock-o"></i>
+                                                </a>
+                                            {% else %}
+                                                No progress
+                                            {% endif %}
+                                        {% endfor %}
+                                    <td>
+                                        {% if request.user.member.is_supervisor or request.user.member.is_student %}
+                                            <a href="{% url 'task_question_new' task.id %}" class="button">
+                                                <i class="fa fa-plus-square"></i> Question
+                                            </a>
+                                        {% endif %}
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Question(s):</td>
+                                    <td colspan="6">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                {% for question in task.questions.all %}
+                                                    <tr>
+                                                        <td>{{ question.question }}</td>
+                                                        <td>{{ question.author.first_name }}</td>
+                                                        <td>{{ question.date_created|date:"F j o" }}</td>
+                                                        <td>
+                                                            {% if user.member.is_student or user.member.is_supervisor %}
+                                                                <a href="{% url 'task_question_answer' question.id %}">Answer</a>
+                                                            {% else %}
+                                                                Waiting on answer
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Answer(s):</td>
+                                                        <td colspan="4">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-bordered">
+                                                                    <tbody>
+                                                                        {% for answer in question.answers.all %}
+                                                    
+                                                                        <tr>
+                                                                            <td>{{ answer.intern.first_name }}</td>
+                                                                            <td>{{ answer.answer }}</td>
+                                                                            <td>{{ answer.date_created|date:"F j o" }}</td>
+                                                                        </tr>
+                                                                        {% empty %}
+                                                    
+                                                                        No Answers
+                                                                        {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                {% empty %}
+                                                    <td colspan="7" class="text-center">No Questions for
+                                                        "{{ task.name }}".<br/> Click the <i
+                                                                class="fa fa-plus-square"></i> to the right of the task
+                                                        to create a
+                                                        question<br/><br/></td>
+                                                
+                                                
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                No Tasks
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+                {% if tasks %}
+                    <hr/>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Focus</th>
+                                <th>Expected Effort</th>
+                                <th>Date Created</th>
+                                <th>Author</th>
+                                <th>State</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for focus in focuses %}
+                                <tr>
+                                    <td>
+                                        {% if user.member.is_student %}
+                                            <a href="{% url 'focus_answer' focus.id %}">
+                                                {{ focus.text }}
+                                            </a>
+                                        {% else %}
+                                            {{ focus.text }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ focus.length }}</td>
+                                    <td>{{ focus.date_created |date:"F j o" }}</td>
+                                    <td>{{ focus.author.first_name }}</td>
+                                    <td><i class="fa fa-question-circle"></i> Started</td>
+                                </tr>
+                                <tr>
+                                    <td>Answer(s):</td>
+                                    <td colspan="4">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                {% for answer in focus.focus_answers.all %}
+                                                    <tr>
+                                                        <td>{{ answer.intern.first_name }}</td>
+                                                        <td>{{ answer.answer }}</td>
+                                                        <td>{{ answer.date_created|date:"F j o" }}</td>
+                                                    </tr>
+                                                {% empty %}
+
+                                                    No Answers
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                            {% empty %}
+                                <tr>
+                                    <td>No Focuses</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+                
+        <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Performance Feedback
+            {% if user.member.is_student %}
+            <div class="pull-right" style="font-size: 80%">
+                <a href="{% url 'feedback_new' internship_info.id %}">
+                    <i class="fa fa-calendar-plus-o"></i> Feedback</a>
+            </div>
+            {% endif %}
+        </h3>
+    </div>
+    <hr/>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Feedback</th>
+                    <th>Date Created</th>
+                    <th>Author</th>
+                    <th>State</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for feedback in internship_info.feedback.all %}
+                <tr>
+                    <td>
+                        {% if user.member.is_supervisor %}
+                        <a href="{% url 'feedback_answer' feedback.id %}">
+                            {{ feedback.question }}
+                        </a>
+                        {% else %}
+                        {{ feedback.question }}
+                        {% endif %}
+                    </td>
+                    <td>{{ feedback.date_created |date:"F j o" }}</td>
+                    <td>{{ feedback.author.first_name }}</td>
+                    <td>Posted</td>
+                </tr>
+                <tr>
+                    <td>Answer(s):</td>
+                    <td colspan="4">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    {% for answer in feedback.feedback_answers.all %}
+                                    <tr>
+                                        <td>{{ answer.supervisor.first_name }}</td>
+                                        <td>{{ answer.answer }}</td>
+                                        <td>{{ answer.date_created|date:"F j o" }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    
+                                    No Answers
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                    
+                </tr>
+                
+                {% empty %}
+                <tr>
+                    <td>No Feedback</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+    {% else %}
+        <p>Problem loading internship data.</p>
+    {% endif %}
+
+{% endblock %}

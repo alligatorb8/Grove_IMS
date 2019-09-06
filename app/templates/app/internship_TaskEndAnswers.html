@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <h2>Task Wrap-up Questions
+        <small>{{ task_info.name }}</small>
+    </h2>
+    <p>Upon completion of a task, please fill out any feedback you have for your supervisor in the text box below.
+    </p>
+    <p>Please take a moment to answer these questions as best as you can. (0 is the low, 10 is high)</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <table class="table table-responsive">
+                {{ form.as_table }}
+            </table>
+        </div>
+        <hr/>
+        <button type="submit" class="btn btn-success">Submit Answers</button>
+    </form>
+    <br/>
+{% endblock %}

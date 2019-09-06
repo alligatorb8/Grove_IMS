@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="jumbotron">
+            <h1>Welcome {{ user.get_full_name }}</h1>
+
+            <p>To the Intern Management System</p>
+
+            <p>This system is for internship programs looking to help their interns and supervisors reach their goals while also providing work experience.</p>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <p class="text-center"><span class="welcome_icon"><i class="fa fa-building-o"></i></span></p>
+                    <ol.a class="list-group home_list">
+                        <h4>Company looking for interns?<br/>
+                            <small>Get the most of out of your interns</small>
+                        </h4>
+                        <li>Purchase a <b>Supervisor</b> account</li>
+                        <li>Connect Supervisor with Intern accounts</li>
+                        <li>Assign tasks, goals, and questions</li>
+                    </ol>
+                </div>
+
+                <div class="col-md-4">
+                    <p class="text-center"><span class="welcome_icon"><i class="fa fa-user"></i></span></p>
+                    <ol.a class="list-group home_list">
+                        <h4>Looking for an internship?<br/>
+                            <small>Get the most of out of your internship</small>
+                        </h4>
+                        <li>Register for an <b>Intern</b> account</li>
+                        <li>Search for companies offering internships</li>
+                        <li>Complete tasks, goals, and questions</li>
+                        <li>Keep all your notes and work to create an online portfolio</li>
+                    </ol>
+                </div>
+
+                <div class="col-md-4">
+                    <p class="text-center"><span class="welcome_icon"><i class="fa fa-university"></i></span></p>
+                    <ol.a class="list-group home_list">
+                        <h4>Institution wanting to place interns?<br/>
+                            <small>Pair students with an ideal company</small>
+                        </h4>
+                        <li>Register for a <b>Counselor</b> account</li>
+                        <li>Help your students create profiles</li>
+                        <li>Search for local companies that pair with your students needs</li>
+                        <li>Keep track of your students progress and relieve feedback from companies</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

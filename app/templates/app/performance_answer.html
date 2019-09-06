@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h2>Answering <small>{{performance_info.text}}</small>
+</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <table class="table table-responsive">
+            {{ form.as_table}}
+        </table>
+    </div>
+    <button type="submit" class="btn btn-success">Save Answer</button>
+</form>
+<br/>
+{% endblock %}

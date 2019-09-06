@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block main %}
+{% if my_internships_list and user.is_student %}
+<h3>Member of:</h3>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Registration Opens</th>
+            <th>Registration Closes</th>
+            <th>Internship Start</th>
+            <th>Internship End</th>
+            <th>Description</th>
+            <th>Application letter</th>
+            <th>Interns Openings</th>
+            <th>Company</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for inter in my_internships_list %}
+        <tr>
+            <td>
+                <a href="{% url 'internship_view' inter.internship.id %}">
+                    {{inter.internship.title}}
+                </a>
+            </td>
+            <td>{{inter.internship.registration_start_date}}</td>
+            <td>{{inter.internship.registration_end_date}}</td>
+            <td>{{inter.internship.start_date}}</td>
+            <td>{{inter.internship.end_date}}</td>
+            <td>{{inter.internship.description}}</td>
+            <td>
+                <a href="{% url 'edit_application' application_id=inter.pk %}">
+                    {{inter.letter}}
+                </a>
+            </td>
+            <td>{{inter.internship.openings}}</td>
+            <td>
+                <a href="{% url 'org_info' inter.internship.company.org_name %}"> {{inter.internship.company.org_name}}
+                    <i class="fa fa-info-circle"></i></a>
+            </td>
+            <td>
+                {{inter.get_state_display}}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p>You are not a member of any internship(s).</p>
+{% endif %}
+
+{% if my_supervisor_list and user.is_supervisor %}
+
+<h3>Supervisor For:</h3>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Registration Opens</th>
+            <th>Registration Closes</th>
+            <th>Internship Start</th>
+            <th>Internship End</th>
+            <th>Description</th>
+            <th>Openings/Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for supervisor in my_supervisor_list %}
+        <tr>
+            <td>
+                <a href="{% url 'internship_view' supervisor.id %}">
+                    {{supervisor.title}}
+                </a>
+            </td>
+            <td>{{supervisor.registration_start_date}}</td>
+            <td>{{supervisor.registration_end_date}}</td>
+            <td>{{supervisor.start_date}}</td>
+            <td>{{supervisor.end_date}}</td>
+            <td>{{supervisor.description|truncatewords:"8"}}</td>
+            <td>?/{{supervisor.openings}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% elif user.is_supervisor %}
+<p>You are not a supervisor of any internship(s).</p>
+{% endif %}
+
+{% endblock %}

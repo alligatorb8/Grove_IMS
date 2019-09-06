@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h2>Answering <small>{{question_info.question}}</small>
+</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <table class="table table-responsive">
+            {{ form.as_table}}
+        </table>
+    </div>
+    <button type="submit" class="btn btn-success">Create Answer</button>
+</form>
+<br/>
+{% endblock %}

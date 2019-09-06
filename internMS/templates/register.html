@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h2>Register for an account:</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <table class="table table-responsive">
+            <tr><td colspan="2" class="form_group_title h4">Required</td></tr>
+            {{ user_form.as_table }}
+            <tr><td colspan="2" class="form_group_title h4">Recomended</td></tr>
+            {{ profile_form.as_table }}
+        </table>
+    </div>
+    <button type="submit" class="btn btn-success">Submit Account</button>
+    <br/>
+</form>
+{% endblock %}

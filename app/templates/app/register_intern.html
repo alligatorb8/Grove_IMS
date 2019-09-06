@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h2>Application for:
+    <small>{{internship_info.title}} @ {{internship_info.company.org_name}}</small>
+</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <table class="table table-responsive">
+            {{ form.as_table }}
+        </table>
+    </div>
+    <button type="submit" class="btn btn-success">Save Application</button><br/>
+    <sup>*</sup>
+    <small>Reminder, your user profile is connected to this application. After submitting the recieving company will be
+        able to see your information and any previous experiance.
+    </small>
+</form>
+{% endblock %}

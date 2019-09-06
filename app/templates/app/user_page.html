@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+{% if user_info %}
+<div class="panel-body">
+    <div class="row">
+        <div class="col-md-3 col-sm-3">
+            <div class="thumbnail">
+                <img src="{{user_info.member.image}}"
+                     alt="{{user_info.username}}"/>
+
+                <div class="caption">
+                    <h3>{{user_info.first_name}}
+                        {{user_info.last_name}}
+                    </h3>
+
+                    <p>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            {{user_info.member.bio}}
+        </div>
+        <div class="col-md-3">
+            <address>
+                {{ user_info.member.street }}<br/>
+                {% if user_info.member.street2 %}
+                {{user_info.member.street2 }}<br/>
+                {% endif %}
+                {{ user_info.member.city }}, {{ user_info.member.state }}
+                {{ user_info.member.zip }}<br/>
+                {{ user_info.member.country }}
+            </address>
+            <p><a href="tel:{{ internship_info.main_contact.member.phone }}">
+                <i class="fa fa-phone"></i> {{ user_info.member.phone }}
+            </a></p>
+
+            <p><a href="mailto:{{ internship_info.main_contact.email }}">
+                <i class="fa fa-envelope-o"></i> {{ user_info.email}}</a></p>
+        </div>
+        <div class="col-md-3">
+            Email Validated:
+            {{user_info.member.email_validated}}
+        </div>
+    </div>
+</div>
+{% else %}
+Error finding user
+{% endif %}
+
+{% endblock %}

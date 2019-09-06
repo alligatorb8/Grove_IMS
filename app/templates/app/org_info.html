@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block main %}
+{% if org_details %}
+
+<div class="panel-heading">
+    <h3 class="panel-title"> {{ org_details.org_name }}
+        <span class="pull-right">{{ org_details.industry }}</span><br/>
+        <small>{{ org_details.org_type }}</small>
+    </h3>
+</div>
+<div class="panel-body">
+    <div class="row">
+        <div class="col-md-3 ">
+            <img src="{{org_details.logo}}" width="150" alt="{{ org_details.org_name }} logo"/>
+
+            <p>{{ org_details.bio }}</p>
+
+            <p><a href="{{ org_details.website }}" target="_blank"> {{ org_details.website }}</a></p>
+        </div>
+        <div class="col-md-3">
+            <br/>
+        </div>
+
+        <div class="col-md-3">
+            <span>Address:</span>
+            <address>
+                {{ org_details.street }}<br/>
+                {% if org_details.street2 %}{{ org_details.street2 }}<br/>{% endif %}
+                {{ org_details.city }}, {{ org_details.state }} {{ org_details.zip }}<br/>
+                {{ org_details.country }}
+            </address>
+        </div>
+    </div>
+</div>
+
+
+{% else %}
+<div class="alert alert-danger" role="alert"><p>Company not found.</p></div>
+
+{% endif %}
+<h3> Other internships from this company</h3>
+{% if internship_list %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Registration Opens</th>
+                <th>Registration Closes</th>
+                <th>Internship Start</th>
+                <th>Internship End</th>
+                <th>Description</th>
+                <th>Intern Openings</th>
+                <th>Apply</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for internship in internship_list %}
+            <tr>
+                <td>{{internship.title}}</td>
+                <td>{{internship.registration_start_date}}</td>
+                <td>{{internship.registration_end_date}}</td>
+                <td>{{internship.start_date}}</td>
+                <td>{{internship.end_date}}</td>
+                <td>{{internship.description}}</td>
+                <td>{{internship.openings}}</td>
+            <td>
+                <a href="{% url 'inter_application' internship.id %}">
+                    <i class="fa fa-handshake-o"></i></a>
+            </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>No internships are available.</p>
+    {% endif %}
+
+
+    {% endblock %}

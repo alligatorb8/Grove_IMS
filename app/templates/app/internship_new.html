@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h2>Creating a new internship opportunity:
+</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <table class="table table-responsive">
+            {{ form.as_table }}
+        </table>
+    </div>
+    <input type="hidden" name="internship" value="{{internship_info.id}}"/>
+    <button type="submit" class="btn btn-success">Submit Internship</button><br/>
+    <sup>*</sup>
+    <small>Reminder, your user and company profile is connected to this application. After submitting any applicant will
+        be
+        able to see you and your company information.
+    </small>
+    <br/>
+</form>
+{% endblock %}
